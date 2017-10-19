@@ -24,21 +24,22 @@ class Stack {
 
 public:
 
+    explicit Stack(unsigned);
 
-    explicit Stack(unsigned length);
-
-    void push(int item);
+    void push(int);
     int pop();
     int peek() const;
 
     const unsigned int getSize() const;
-    const unsigned int freeSpaces() const;
+    const unsigned int getFreeSpaces() const;
 
 private:
 
     const unsigned size;
-    std::vector<int> stack;
+    unsigned freeSpaces;
+    int *stack;
+    int *nextItem;
 };
 
 
-#endif //STACK_STACK_H
+#endif STACK_STACK_H

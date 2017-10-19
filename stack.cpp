@@ -5,27 +5,28 @@
 #include "stack.h"
 #include "StackExceptions.hpp"
 
-Stack::Stack(unsigned size) : size(size) {}
+Stack::Stack(unsigned size) : size(size), freeSpaces(size),
+                              stack(new int[size]), nextItem(stack) {}
 
 const unsigned int Stack::getSize() const { return size; }
 
 void Stack::push(int item) {
-    if (freeSpaces() == 0) throw StackOverflowException();
-    stack.push_back(item);
+    if (freeSpaces == 0) throw StackOverflowException();
+    *nextItem = item;
+    nextItem++;
+    freeSpaces--;
 }
 
 int Stack::pop() {
-    if (stack.empty()) throw StackUnderflowException();
-    int value = stack.back();
-    stack.pop_back();
-    return value;
+    if (size == freeSpaces) throw StackUnderflowException();
+    freeSpaces++;
+    return *--nextItem;
 }
 
 int Stack::peek() const {
-    if (stack.empty()) throw StackEmptyException();
-    return stack.back();
+    if (size == freeSpaces) throw StackEmptyException();
+    int *p = nextItem;
+    return *--p;
 }
 
-const unsigned int Stack::freeSpaces() const {
-    return size - unsigned (stack.size());
-}
+const unsigned int Stack::getFreeSpaces() const { return freeSpaces; }
