@@ -12,21 +12,23 @@ const unsigned int Stack::getSize() const { return size; }
 
 void Stack::push(int item) {
     if (freeSpaces == 0) throw StackOverflowException();
-    *nextItem = item;
-    nextItem++;
+    *nextItem++ = item;
     freeSpaces--;
 }
 
 int Stack::pop() {
-    if (size == freeSpaces) throw StackUnderflowException();
+    if (isEmpty()) throw StackUnderflowException();
     freeSpaces++;
     return *--nextItem;
 }
 
 int Stack::peek() const {
-    if (size == freeSpaces) throw StackEmptyException();
-    int *p = nextItem;
-    return *--p;
+    if (isEmpty()) throw StackEmptyException();
+    return *(nextItem-1);
 }
 
 const unsigned int Stack::getFreeSpaces() const { return freeSpaces; }
+
+bool Stack::isEmpty() const {
+    return size == freeSpaces;
+}

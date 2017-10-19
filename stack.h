@@ -32,6 +32,7 @@ public:
 
     const unsigned int getSize() const;
     const unsigned int getFreeSpaces() const;
+    bool isEmpty()const;
 
 private:
 
